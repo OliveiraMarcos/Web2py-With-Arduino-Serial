@@ -1,0 +1,65 @@
+{{extend 'layout.html'}}
+<!-- USER PROFILE BLOCK -->
+<div class="col-sm-3 col-lg-3">
+    <form action="index" method="post" id="ref">
+        <input type="hidden" name="ref" id="refer">
+    <div class="dash-unit">
+        <dtitle>Sala de Refeitório</dtitle>
+        <hr>
+        <div class="thumbnail">
+            <i class="fa fa-cutlery fa-5x"></i>
+        </div><!-- /thumbnail -->
+        <h1>Refeitório</h1>
+        <h3>{{=refSt}} <i class="fa {{=refIcon}}"></i></h3>
+        <br>
+        <div class="info-user">
+            <button title="Ligar" onclick="document.getElementById('refer').value='1';"><span aria-hidden="true" class="fa fa-circle-o fs1"></span></button>
+            <button title="Desligar" onclick="document.getElementById('refer').value='0';"><span aria-hidden="true" class="fa fa-power-off fs1"></span></button>
+        </div>
+    </div>
+    </form>
+</div>
+<div class="col-sm-3 col-lg-3">
+    <div class="dash-unit">
+        <dtitle>Sala de Aula</dtitle>
+        <hr>
+        <div class="thumbnail">
+            <i class="fa fa-graduation-cap fa-5x"></i>
+        </div><!-- /thumbnail -->
+        <h1>Sala de Aula</h1>
+        <h3>Ligado <i class="fa fa-toggle-on"></i></h3>
+        <br>
+        <div class="info-user">
+            <a href="{URL_BASE}Usuario" title="Ligar"><span aria-hidden="true" class="fa fa-circle-o fs1"></span></a>
+            <a href="{URL_BASE}Usuario/adicionar"><span aria-hidden="true" class="fa fa-power-off fs1"></span></a>
+            
+        </div>
+    </div>
+</div>
+<div class="col-sm-3 col-lg-3">
+    <div class="dash-unit">
+        <dtitle>Sala de Auditório</dtitle>
+        <hr>
+        <div class="thumbnail">
+            <i class="fa fa-microphone fa-5x"></i>
+        </div><!-- /thumbnail -->
+        <h1>Auditório</h1>
+        <h3>Ligado <i class="fa fa-toggle-on"></i></h3>
+        <br>
+        <div class="info-user">
+            <a href="{URL_BASE}Papel" title="Ligar"><span aria-hidden="true" class="fa fa-circle-o fs1"></span></a>
+            <a href="{URL_BASE}Papel/adicionar"><span aria-hidden="true" class="fa fa-power-off fs1"></span></a>
+        </div>
+    </div>
+</div>
+<div class="col-sm-3 col-lg-3">
+
+    <!-- LOCAL TIME BLOCK -->
+    <div class="half-unit">
+        <dtitle>Hora Local</dtitle>
+        <hr>
+        <div class="clockcenter">
+            <digiclock>12:45:25</digiclock>
+        </div>
+    </div>
+</div>

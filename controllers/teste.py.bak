@@ -1,0 +1,5 @@
+# -*- coding: utf-8 -*-
+# tente algo como
+def index():
+    y = request.vars.cmd
+    return dict(message=y)
