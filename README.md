@@ -21,3 +21,10 @@ pip.exe install tornado
 ## Instalar Aplicação Web
 #### Dentro de web2py/aplications click com o botão direito e escolha
 #### Git bash e no terminal que aparecer cole o comando:
+git clone https://github.com/0l1v31r4/Web2pyWithArduinoSerial.git
+
+
+#Referencias
+============
+######https://www.youtube.com/watch?v=MUWy-NSrvNQ
+######http://pt.slideshare.net/relsi/casa-inteligente-com-python-e-arduino
