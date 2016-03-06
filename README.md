@@ -25,6 +25,5 @@ git clone https://github.com/0l1v31r4/Web2pyWithArduinoSerial.git
 
 
 #Referencias
-============
 ######https://www.youtube.com/watch?v=MUWy-NSrvNQ
 ######http://pt.slideshare.net/relsi/casa-inteligente-com-python-e-arduino
