@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<class 'sqlite3.IntegrityError'> foreign key constraint failed"
+p3
+sS'layer'
+p4
+S'C:\\Python27\\web2py\\applications\\Arduino\\controllers/grupo.py'
+p5
+sS'code'
+p6
+S"# -*- coding: utf-8 -*-\n\n\ndef index():\n\n\tlista = db(Grupo).select(orderby=~Grupo.id)\n\treturn dict(lista=lista)\n\n\ndef adicionar():\n\tform = SQLFORM(Grupo, formstyle='divs')\n\tif form.process().accepted:\n\t\tresponse.flash = 'Sucesso!'\n\t\tredirect(URL('index'))\n\telif form.errors:\n\t\tresponse.flash = 'Erros!'\n\telse:\n\t\tresponse.flash = 'Preencha os dados'\n\treturn dict(form=form)\n\n\ndef editar():\n    if request.args(0):\n        record = Grupo(request.args(0)) or redirect(URL('index'))\n        form = SQLFORM(Grupo, record, formstyle='divs')\n    if form.process().accepted:\n        redirect(URL('index'))\n        response.flash = 'Sucesso!'\n    elif form.errors:\n        response.flash = 'Erros!'\n    else:\n        response.flash = 'Preencha os dados'\n    response.view = 'grupo/adicionar.html'\n    return dict(form=form)\nresponse._vars=response._caller(adicionar)\n"
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "C:\\Python27\\web2py\\gluon\\restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "C:\\Python27\\web2py\\applications\\Arduino\\controllers/grupo.py", line 35, in <module>\n  File "C:\\Python27\\web2py\\gluon\\globals.py", line 422, in <lambda>\n    self._caller = lambda f: f()\n  File "C:\\Python27\\web2py\\applications\\Arduino\\controllers/grupo.py", line 12, in adicionar\n    if form.process().accepted:\n  File "C:\\Python27\\web2py\\gluon\\html.py", line 2306, in process\n    self.validate(**kwargs)\n  File "C:\\Python27\\web2py\\gluon\\html.py", line 2243, in validate\n    if self.accepts(**kwargs):\n  File "C:\\Python27\\web2py\\gluon\\sqlhtml.py", line 1744, in accepts\n    self.vars.id = self.table.insert(**fields)\n  File "C:\\Python27\\web2py\\gluon\\packages\\dal\\pydal\\objects.py", line 731, in insert\n    ret = self._db._adapter.insert(self, self._listify(fields))\n  File "C:\\Python27\\web2py\\gluon\\packages\\dal\\pydal\\adapters\\base.py", line 746, in insert\n    raise e\nIntegrityError: foreign key constraint failed\n'
+p11
+s.

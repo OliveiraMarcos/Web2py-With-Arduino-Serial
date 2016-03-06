@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.NameError'> global name 'user' is not defined"
+p3
+sS'layer'
+p4
+S'C:\\Python27\\web2py\\applications\\Arduino\\controllers/usuario.py'
+p5
+sS'code'
+p6
+S"# -*- coding: utf-8 -*-\n\ndef index():\n\t\n\tlista = db(user).select(orderby=~user.id)\n\treturn dict(lista=lista)\n\n\n\n\ndef adicionar():\n\tform = SQLFORM(user, formstyle='divs')\n\tif form.process().accepted:\n\t\tpass\n\treturn dict(form=form)\n\n\ndef editar():\n\tform = SQLFORM(user, formstyle='divs')\n\tif form.process().accepted:\n\t\tpass\n\treturn dict(form=form)\nresponse._vars=response._caller(adicionar)\n"
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "C:\\Python27\\web2py\\gluon\\restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "C:\\Python27\\web2py\\applications\\Arduino\\controllers/usuario.py", line 23, in <module>\n  File "C:\\Python27\\web2py\\gluon\\globals.py", line 422, in <lambda>\n    self._caller = lambda f: f()\n  File "C:\\Python27\\web2py\\applications\\Arduino\\controllers/usuario.py", line 12, in adicionar\n    form = SQLFORM(user, formstyle=\'divs\')\nNameError: global name \'user\' is not defined\n'
+p11
+s.

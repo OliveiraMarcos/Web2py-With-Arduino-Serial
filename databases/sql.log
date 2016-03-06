@@ -1,4 +1,4 @@
-timestamp: 2016-01-30T18:10:12.870000
+timestamp: 2016-03-02T22:41:23.558000
 CREATE TABLE auth_user(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name CHAR(128),
@@ -10,21 +10,21 @@ CREATE TABLE auth_user(
     registration_id CHAR(512)
 );
 success!
-timestamp: 2016-01-30T18:10:13.013000
+timestamp: 2016-03-02T22:41:23.658000
 CREATE TABLE auth_group(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     role CHAR(512),
     description TEXT
 );
 success!
-timestamp: 2016-01-30T18:10:13.155000
+timestamp: 2016-03-02T22:41:23.734000
 CREATE TABLE auth_membership(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  
 );
 success!
-timestamp: 2016-01-30T18:10:13.280000
+timestamp: 2016-03-02T22:41:23.821000
 CREATE TABLE auth_permission(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  ,
@@ -33,7 +33,7 @@ CREATE TABLE auth_permission(
     record_id INTEGER
 );
 success!
-timestamp: 2016-01-30T18:10:13.403000
+timestamp: 2016-03-02T22:41:23.922000
 CREATE TABLE auth_event(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     time_stamp TIMESTAMP,
@@ -43,7 +43,7 @@ CREATE TABLE auth_event(
     description TEXT
 );
 success!
-timestamp: 2016-01-30T18:10:13.568000
+timestamp: 2016-03-02T22:41:24.027000
 CREATE TABLE auth_cas(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
@@ -51,5 +51,63 @@ CREATE TABLE auth_cas(
     service CHAR(512),
     ticket CHAR(512),
     renew CHAR(1)
+);
+success!
+timestamp: 2016-03-02T22:41:24.128000
+CREATE TABLE serial(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    device CHAR(11) NOT NULL UNIQUE,
+    baud_rate INTEGER,
+    timeout INTEGER,
+    parity CHAR(1),
+    stopbits INTEGER,
+    bytesize INTEGER,
+    status CHAR(1),
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-03-02T22:41:24.228000
+CREATE TABLE grupo(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome CHAR(50) NOT NULL,
+    desc CHAR(80),
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-03-02T22:41:24.314000
+CREATE TABLE icons(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome CHAR(60) NOT NULL,
+    icon CHAR(80),
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-03-02T22:41:24.400000
+CREATE TABLE embarcado(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_serial INTEGER REFERENCES serial (id) ON DELETE CASCADE  NOT NULL ,
+    id_grupo INTEGER REFERENCES grupo (id) ON DELETE CASCADE  NOT NULL ,
+    id_icon INTEGER REFERENCES icons (id) ON DELETE CASCADE  NOT NULL ,
+    nome CHAR(80),
+    descricao CHAR(80),
+    codigo_arduino INTEGER,
+    status CHAR(1),
+    is_active CHAR(1),
+    created_on TIMESTAMP,
+    created_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  
 );
 success!

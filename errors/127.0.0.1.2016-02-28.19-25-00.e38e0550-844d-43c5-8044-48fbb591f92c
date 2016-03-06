@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.AttributeError'> "
+p3
+sS'layer'
+p4
+S'C:\\Python27\\web2py\\applications\\Arduino\\controllers/usuario.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n\ndef index():\n\n\tlist_str = """ \n\t\t<tr class="odd gradeX">\n            <td>%(id)</td>\n            <td>%(nome)</td>\n            <td>%(sobrenome)</td>\n            <td>%(email)</td>\n            <td><a href="%(edit)" class="btn btn-primary btn-xs fa fa-pencil" >\n\n                </a>\n                <a href="%(delt)" class="btn btn-primary btn-xs fa fa-trash-o" >\n\n                </a>\n\n            </td>\n\n        </tr>\n\t"""\n\tlis0 = db(db.auth_group).select(orderby=~db.auth_group.id)\n\tlista = [list_str % dict(id=row.id,\\\n\t\tnome=row.first_name,\\\n\t\tsobrenome=row.last_name,\\\n\t\temail=row.email,\\\n\t\tedit=URL(\'usuario\',\'editar\'),\\\n\t\tdelt=URL(\'usuario\',\'desativar\'),\\\n\t\t)for row in lis0]\n\treturn dict(lista=lista)\n\n\n\n\ndef adicionar():\n\tform = SQLFORM(db.auth_group, formstyle=\'divs\')\n\tif form.process().accepted:\n\t\tpass\n\treturn dict(form=form)\n\n\ndef editar():\n\tform = SQLFORM(db.auth_group, formstyle=\'divs\')\n\tif form.process().accepted:\n\t\tpass\n\treturn dict(form=form)\nresponse._vars=response._caller(index)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "C:\\Python27\\web2py\\gluon\\restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "C:\\Python27\\web2py\\applications\\Arduino\\controllers/usuario.py", line 47, in <module>\n  File "C:\\Python27\\web2py\\gluon\\globals.py", line 422, in <lambda>\n    self._caller = lambda f: f()\n  File "C:\\Python27\\web2py\\applications\\Arduino\\controllers/usuario.py", line 29, in index\n    )for row in lis0]\n  File "C:\\Python27\\web2py\\gluon\\packages\\dal\\pydal\\objects.py", line 90, in __getattr__\n    raise AttributeError\nAttributeError\n'
+p11
+s.

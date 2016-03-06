@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.NameError'> global name 'lista' is not defined"
+p3
+sS'layer'
+p4
+S'C:\\Python27\\web2py\\applications\\Arduino\\controllers/usuario.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n\ndef index():\n\n\tlist_str = """ \n\t\t<tr class="odd gradeX">\n            <td>%s</td>\n            <td>%s</td>\n            <td>%s</td>\n            <td>%s</td>\n            <td><a href="%s" class="btn btn-primary btn-xs fa fa-pencil" >\n\n                </a>\n                <a href="%s" class="btn btn-primary btn-xs fa fa-trash-o" >\n\n                </a>\n\n            </td>\n\n        </tr>\n\t"""\n\tlis = []\n\tresp = db(db.auth_group).select(orderby=~db.auth_group.id)\n\tfor lin in resp:\n\t\tlis += [list_str % (lin.id,\\\n\t\tlin.id,\\\n\t\tlin.id,\\\n\t\tlin.id,\\\n\t\tURL(\'usuario\',\'editar\'),\\\n\t\tURL(\'usuario\',\'desativar\'),\\\n\t\t)]\n\treturn dict(lista=lista)\n\n\n\n\ndef adicionar():\n\tform = SQLFORM(db.auth_group, formstyle=\'divs\')\n\tif form.process().accepted:\n\t\tpass\n\treturn dict(form=form)\n\n\ndef editar():\n\tform = SQLFORM(db.auth_group, formstyle=\'divs\')\n\tif form.process().accepted:\n\t\tpass\n\treturn dict(form=form)\nresponse._vars=response._caller(index)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "C:\\Python27\\web2py\\gluon\\restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "C:\\Python27\\web2py\\applications\\Arduino\\controllers/usuario.py", line 49, in <module>\n  File "C:\\Python27\\web2py\\gluon\\globals.py", line 422, in <lambda>\n    self._caller = lambda f: f()\n  File "C:\\Python27\\web2py\\applications\\Arduino\\controllers/usuario.py", line 32, in index\n    return dict(lista=lista)\nNameError: global name \'lista\' is not defined\n'
+p11
+s.

@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<class 'sqlite3.IntegrityError'> foreign key constraint failed"
+p3
+sS'layer'
+p4
+S'C:\\Python27\\web2py\\applications\\Arduino\\controllers/icons.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n\n\n@auth.requires_login()\ndef index():\n\n    list_str = """ \n        <tr class="odd gradeX">\n            <td>%(nome)s</td>\n            <td>%(icon)s</td>\n            <td><a href="%(edt)s" class="btn btn-primary btn-xs fa fa-pencil" >\n\n                </a>\n                <a href="%(delt)s" class="btn btn-primary btn-xs fa fa-trash-o" >\n\n                </a>\n\n            </td>\n\n        </tr>\n    """\n    resp = db(Icons).select(orderby=~Icons.id)\n    lista = [list_str % dict(nome=linha.nome,\n                             icon=linha.icon,\n                             edt=URL(\'icons\', \'editar\', args=linha.id),\n                             delt=URL(\'icons\', \'desativar\'),\n                             )for linha in resp]\n    return dict(lista=lista)\n\n\n@auth.requires_login()\ndef adicionar():\n    form = SQLFORM(Icons, formstyle=\'divs\')\n    if form.process().accepted:\n        response.flash = \'Sucesso!\'\n        redirect(URL(\'index\'))\n    elif form.errors:\n        response.flash = \'Erros!\'\n    else:\n        response.flash = \'Preencha os dados\'\n    return dict(form=form)\n\n\n@auth.requires_login()\ndef editar():\n    if request.args(0):\n        record = Icons(request.args(0)) or redirect(URL(\'index\'))\n        form = SQLFORM(Icons, record, formstyle=\'divs\')\n    if form.process().accepted:\n        redirect(URL(\'index\'))\n        response.flash = \'Sucesso!\'\n    elif form.errors:\n        response.flash = \'Erros!\'\n    else:\n        response.flash = \'Preencha os dados\'\n    response.view = \'icons/adicionar.html\'\n    return dict(form=form)\n\nresponse._vars=response._caller(adicionar)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "C:\\Python27\\web2py\\gluon\\restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "C:\\Python27\\web2py\\applications\\Arduino\\controllers/icons.py", line 59, in <module>\n  File "C:\\Python27\\web2py\\gluon\\globals.py", line 422, in <lambda>\n    self._caller = lambda f: f()\n  File "C:\\Python27\\web2py\\gluon\\tools.py", line 4228, in f\n    return action(*a, **b)\n  File "C:\\Python27\\web2py\\applications\\Arduino\\controllers/icons.py", line 34, in adicionar\n    if form.process().accepted:\n  File "C:\\Python27\\web2py\\gluon\\html.py", line 2306, in process\n    self.validate(**kwargs)\n  File "C:\\Python27\\web2py\\gluon\\html.py", line 2243, in validate\n    if self.accepts(**kwargs):\n  File "C:\\Python27\\web2py\\gluon\\sqlhtml.py", line 1744, in accepts\n    self.vars.id = self.table.insert(**fields)\n  File "C:\\Python27\\web2py\\gluon\\packages\\dal\\pydal\\objects.py", line 731, in insert\n    ret = self._db._adapter.insert(self, self._listify(fields))\n  File "C:\\Python27\\web2py\\gluon\\packages\\dal\\pydal\\adapters\\base.py", line 746, in insert\n    raise e\nIntegrityError: foreign key constraint failed\n'
+p11
+s.

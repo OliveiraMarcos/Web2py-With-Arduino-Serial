@@ -1,7 +1,7 @@
 <!doctype html>
 <html><head>
         <meta charset="utf-8">
-        <title>Lamp</title>
+        <title>{{=response.title or request.application}}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="Carlos Alvarez - Alvarez.is">
@@ -43,7 +43,17 @@
         
         
         <!--Custumer Marcos-->
+        <script type="text/javascript"><!--
+            // These variables are used by the web2py_ajax_init function in web2py_ajax.js (which is loaded below).
+            var w2p_ajax_confirm_message = "{{=T('Are you sure you want to delete this object?')}}";
+            var w2p_ajax_disable_with_message = "{{=T('Working...')}}";
+            var w2p_ajax_date_format = "{{=T('%Y-%m-%d')}}";
+            var w2p_ajax_datetime_format = "{{=T('%Y-%m-%d %H:%M:%S')}}";
+            var ajax_error_500 = '{{=T.M('An error occured, please [[reload %s]] the page') % URL(args=request.args, vars=request.get_vars) }}'
+        //-->
+        </script>
         <link href="{{=URL('static','assets/marcos/css/custumer.css')}}" rel="stylesheet">
+        <script type="text/javascript" src="{{=URL('static','assets/js/web2py.js')}}"></script>
         <script type="text/javascript" src="{{=URL('static','assets/marcos/js/custumerJS.js')}}"></script>
         
         <script type="text/javascript">
@@ -82,7 +92,16 @@
 
     </head>
     <body>
-
+    {{if response.flash:}}
+        <div class="container">
+            <div class=" alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>
+                    {{=response.flash or ''}}
+                </strong>
+            </div>
+        </div>
+    {{pass}}  
         <!-- NAVIGATION MENU -->
 
         <div class="navbar-nav navbar-inverse navbar-fixed-top">
@@ -93,10 +112,12 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{{=URL('default','index')}}"><img src="{{=URL('static','assets/marcos/img/LOGO.png')}}" height="25" alt=""> Lamp</a>
+                    {{=response.logo or ''}}
                 </div> 
                 <div class="navbar-collapse collapse">
-                    
+                    {{if response.menu:}}
+                        {{=MENU(response.menu, _class='nav navbar-nav',li_class='dropdown',ul_class='dropdown-menu')}}
+                    {{pass}}
                 </div><!--/.nav-collapse -->
             </div>
         </div>
@@ -110,7 +131,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12 col-lg-12">
-                        <p><img src="{{=URL('static','assets/marcos/img/bkTop-2.png')}}" height="71" alt=""></p>
+                        <h3><b>Lamp</b><i class="fa fa-lightbulb-o"></i></h3>
                         <p>Systema - Ligou Chegou - Copyright 2016</p>
                     </div>
 

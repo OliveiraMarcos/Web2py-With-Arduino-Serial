@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.NameError'> global name 'Iconss' is not defined"
+p3
+sS'layer'
+p4
+S'C:\\Python27\\web2py\\applications\\Arduino\\controllers/icons.py'
+p5
+sS'code'
+p6
+S"# -*- coding: utf-8 -*-\n\n\ndef index():\n\n\tlista = db(Icons).select(orderby=~Iconss.id)\n\treturn dict(lista=lista)\n\n\ndef adicionar():\n\tform = SQLFORM(Icons, formstyle='divs')\n\tif form.process().accepted:\n\t\tresponse.flash = 'Sucesso!'\n\t\tredirect(URL('index'))\n\telif form.errors:\n\t\tresponse.flash = 'Erros!'\n\telse:\n\t\tresponse.flash = 'Preencha os dados'\n\treturn dict(form=form)\n\n\ndef editar():\n\tform = SQLFORM(Icons, formstyle='divs')\n\tif form.process().accepted:\n\t\tresponse.flash = 'Sucesso!'\n\t\tredirect(URL('index'))\n\telif form.errors:\n\t\tresponse.flash = 'Erros!'\n\telse:\n\t\tresponse.flash = 'Preencha os dados'\n\treturn dict(form=form)\nresponse._vars=response._caller(index)\n"
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "C:\\Python27\\web2py\\gluon\\restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "C:\\Python27\\web2py\\applications\\Arduino\\controllers/icons.py", line 32, in <module>\n  File "C:\\Python27\\web2py\\gluon\\globals.py", line 422, in <lambda>\n    self._caller = lambda f: f()\n  File "C:\\Python27\\web2py\\applications\\Arduino\\controllers/icons.py", line 6, in index\n    lista = db(Icons).select(orderby=~Iconss.id)\nNameError: global name \'Iconss\' is not defined\n'
+p11
+s.

@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.NameError'> global name 'list_str' is not defined"
+p3
+sS'layer'
+p4
+S'C:\\Python27\\web2py\\applications\\Arduino\\controllers/default.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# this file is released under public domain and you can use without limitations\n\n#########################################################################\n# This is a sample controller\n# - index is the default action of any application\n# - user is required for authentication and authorization\n# - download is for downloading files uploaded in the db (does streaming)\n#########################################################################\n\n\n@auth.requires_login()\ndef index():\n    room = """\n    <div class="col-sm-3 col-lg-3">\n        <div class="dash-unit">\n            <dtitle>%(label)s</dtitle>\n            <hr>\n            <div class="thumbnail">\n                <div class="fa-5x">\n                    %(icon)s\n                </div>\n                \n            </div><!-- /thumbnail -->\n            <h1>%(nome)s</h1>\n            <h3>Ligado <i class="fa fa-toggle-on"></i></h3>\n            <br>\n            <div class="info-user">\n                <a href="#" title="Ligar"><span aria-hidden="true" class="fa fa-circle-o fs1"></span></a>\n                <a href="#"><span aria-hidden="true" class="fa fa-power-off fs1"></span></a>\n                \n            </div>\n        </div>\n    </div>\n    """\n    resp = db(Embarcado.id_icon == Icons.id).select(orderby=~Embarcado.id)\n    lista = [list_str % dict(label=linha.embarcado.status,\n                             nome=linha.embarcado.nome,\n                             icon=linha.icons.icon,\n                             )for linha in resp]\n    return dict(lista=lista)\n\n\ndef section():\n    import serial\n    import time\n    cmd = request.vars.ref\n    if cmd:\n        serialport = serial.Serial("COM3", 9600, timeout=0.5)\n        serialport.write(cmd)\n        rep = serialport.readlines(1)\n        time.sleep(1)\n    refIcon = _getOFF()\n    refSt = \'Desligado\'\n    if cmd == \'1\':\n        refIcon = _getON()\n        refSt = \'Ligado\'\n    response.flash = \'Bem Vindo!\'\n    return dict(refIcon=refIcon, refSt=refSt)\n\n\ndef _getON():\n    return \'fa-toggle-on\'\n\n\ndef _getOFF():\n    return \'fa-toggle-off\'\n\n\ndef user():\n    """\n    exposes:\n    http://..../[app]/default/user/login\n    http://..../[app]/default/user/logout\n    http://..../[app]/default/user/register\n    http://..../[app]/default/user/profile\n    http://..../[app]/default/user/retrieve_password\n    http://..../[app]/default/user/change_password\n    http://..../[app]/default/user/bulk_register\n    use @auth.requires_login()\n        @auth.requires_membership(\'group name\')\n        @auth.requires_permission(\'read\',\'table name\',record_id)\n    to decorate functions that need access control\n    also notice there is http://..../[app]/appadmin/manage/auth to allow administrator to manage users\n    """\n    return dict(form=auth())\n\n\n@cache.action()\ndef download():\n    """\n    allows downloading of uploaded files\n    http://..../[app]/default/download/[filename]\n    """\n    return response.download(request, db)\n\n\ndef call():\n    """\n    exposes services. for example:\n    http://..../[app]/default/call/jsonrpc\n    decorate with @services.jsonrpc the functions to expose\n    supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv\n    """\n    return service()\n\nresponse._vars=response._caller(index)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "C:\\Python27\\web2py\\gluon\\restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "C:\\Python27\\web2py\\applications\\Arduino\\controllers/default.py", line 107, in <module>\n  File "C:\\Python27\\web2py\\gluon\\globals.py", line 422, in <lambda>\n    self._caller = lambda f: f()\n  File "C:\\Python27\\web2py\\gluon\\tools.py", line 4228, in f\n    return action(*a, **b)\n  File "C:\\Python27\\web2py\\applications\\Arduino\\controllers/default.py", line 40, in index\n    )for linha in resp]\nNameError: global name \'list_str\' is not defined\n'
+p11
+s.

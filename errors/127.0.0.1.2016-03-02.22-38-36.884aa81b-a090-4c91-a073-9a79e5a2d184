@@ -1,0 +1,644 @@
+(dp1
+S'output'
+p2
+S"<class 'sqlite3.OperationalError'> table embarcado already exists"
+p3
+sS'layer'
+p4
+S'C:\\Python27\\web2py\\applications\\Arduino\\models\\db.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n\nimport serial\n\nSERIAIS = dict()\n\nif not request.env.web2py_runtime_gae:\n    db = DAL("sqlite://storage.sqlite")\nelse:\n    db = DAL("google:datastore+ndb")\n    session.connect(request, response, db=db)\nresponse.generic_patterns = [\'*\'] if request.is_local else []\n\nfrom gluon.tools import Auth, Service, PluginManager\nauth = Auth(db)\nservice = Service()\nplugins = PluginManager()\n# create all tables needed by auth if not custom tables\nauth.define_tables(username=False, signature=False)\n\n\nSerial = db.define_table("serial",\n\t\tField("device", "string", length=11, requires=IS_NOT_EMPTY(), notnull=True, unique=True),\n\t\tField("baud_rate", "integer", length=11, label="Baud Rate", comment=None, default=9600),\n\t\tField("timeout", "integer", length=11, label="Timeout", comment=None, default=1),\n\t\tField("parity", "string", length=1, label="Parity", comment=None, default="N"),\n\t\tField("stopbits", "integer", length=11, label="Stopbits", comment=None, default=1),\n\t\tField("bytesize", "integer", length=11, label="Bytesize", comment=None, default=8),\n\t\tField("status", "boolean", label="Status", comment=None),\n\t\tauth.signature,\n\t\tformat=\'%(device)s\'\n\t\t\n\t)\nSerial.is_active.readable = False\nSerial.is_active.writable = False\n\nGrupo = db.define_table("grupo",\n\t\tField("nome", "string", label="Nome", length=50, requires=IS_NOT_EMPTY(), notnull=True),\n\t\tField("desc", "string", length=80, label="Descri\xc3\xa7\xc3\xa3o", comment=None),\n\t\tauth.signature,\n\t\tformat=\'%(nome)s\'\n\t)\nGrupo.is_active.readable = False\nGrupo.is_active.writable = False\n\nIcons = db.define_table("icons",\n\t\tField("nome", "string", length=60, label="Nome", requires=IS_NOT_EMPTY(), notnull=True),\n\t\tField("icon", "string", length=80, label="Icon", comment=None),\n\t\tauth.signature,\n\t\tformat=\'%(nome)s\'\n\t)\nIcons.is_active.readable = False\nIcons.is_active.writable = False\n\n\nEmbarcado = db.define_table("embarcado",\n\t\tField("id_serial",Serial, label="Serial", requires=IS_NOT_EMPTY(), notnull=True),\n\t\tField("id_grupo",Grupo , label="Grupo", requires=IS_NOT_EMPTY(), notnull=True),\n\t\tField("id_icon",Icons , label="Icons", requires=IS_NOT_EMPTY(), notnull=True),\n\t\tField("nome", "string", length=80, label="Nome", comment=None),\n\t\tField("descricao", "string", length=80, label="Descri\xc3\xa7\xc3\xa3o", comment=None),\n\t\tField("codigo_arduino", "integer", length=11, label="Arduino Cod.", comment=None),\n\t\tField("status", "boolean", label="Status", comment=None),\n\t\tauth.signature\n\t)\nEmbarcado.is_active.readable = False\nEmbarcado.is_active.writable = False\nEmbarcado.id_serial.requires = IS_IN_DB(db, Serial.id, Serial._format)\nEmbarcado.id_grupo.requires = IS_IN_DB(db, Grupo.id, Grupo._format)\nEmbarcado.id_icon.requires = IS_IN_DB(db, Icons.id, Icons._format)\n\n\n\nfor row in db((Serial.id > 0) & (Serial.status == True)).select():\n\tSERIAIS[Serial.id] = serial.Serial(\n\t\tSerial.device,\n\t\tSerial.baud_rate,\n\t\ttimeout=Serial.timeout,\n\t\tbytesize=Serial.bytesize,\n\t\tstopbits=Serial.stopbits,\n\t\tparity=Serial.parity\n\t)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__module__'
+p12
+S"'sqlite3'"
+p13
+sS'__getslice__'
+p14
+S"<method-wrapper '__getslice__' of OperationalError object>"
+p15
+sS'__str__'
+p16
+S"<method-wrapper '__str__' of OperationalError object>"
+p17
+sS'__reduce__'
+p18
+S'<built-in method __reduce__ of OperationalError object>'
+p19
+sS'__dict__'
+p20
+S'{}'
+p21
+sS'__sizeof__'
+p22
+S'<built-in method __sizeof__ of OperationalError object>'
+p23
+sS'__weakref__'
+p24
+S'None'
+p25
+sS'__init__'
+p26
+S"<method-wrapper '__init__' of OperationalError object>"
+p27
+sS'__setattr__'
+p28
+S"<method-wrapper '__setattr__' of OperationalError object>"
+p29
+sS'__reduce_ex__'
+p30
+S'<built-in method __reduce_ex__ of OperationalError object>'
+p31
+sS'__new__'
+p32
+S'<built-in method __new__ of type object>'
+p33
+sS'__format__'
+p34
+S'<built-in method __format__ of OperationalError object>'
+p35
+sS'__class__'
+p36
+S"<class 'sqlite3.OperationalError'>"
+p37
+sS'__doc__'
+p38
+S'None'
+p39
+sS'__getitem__'
+p40
+S"<method-wrapper '__getitem__' of OperationalError object>"
+p41
+sS'__setstate__'
+p42
+S'<built-in method __setstate__ of OperationalError object>'
+p43
+sS'__getattribute__'
+p44
+S"<method-wrapper '__getattribute__' of OperationalError object>"
+p45
+sS'args'
+p46
+S"('table embarcado already exists',)"
+p47
+sS'__subclasshook__'
+p48
+S'<built-in method __subclasshook__ of type object>'
+p49
+sS'__unicode__'
+p50
+S'<built-in method __unicode__ of OperationalError object>'
+p51
+sS'__delattr__'
+p52
+S"<method-wrapper '__delattr__' of OperationalError object>"
+p53
+sS'__repr__'
+p54
+S"<method-wrapper '__repr__' of OperationalError object>"
+p55
+sS'__hash__'
+p56
+S"<method-wrapper '__hash__' of OperationalError object>"
+p57
+ssS'evalue'
+p58
+S'table embarcado already exists'
+p59
+sS'request'
+p60
+cgluon.html
+XML_unpickle
+p61
+(S's\xa8]\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ajax</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">application</td><td style="vertical-align:top;">:</td><td><div>Arduino</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cid</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">client</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">controller</td><td style="vertical-align:top;">:</td><td><div>dispositivo</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_admin</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-3d149fca-5e9c-4edd-bd65-01f960571399<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_arduino</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-19f47e0f-a189-46ed-9e7f-171ac7d1aed5<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_welcome</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-19c9e980-6de2-4750-8644-a788d0407992<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">env</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_ENCODING</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate, sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_LANGUAGE</td><td style="vertical-align:top;">:</td><td><div>pt-BR,pt;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CACHE_CONTROL</td><td style="vertical-align:top;">:</td><td><div>max-age=0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONNECTION</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_COOKIE</td><td style="vertical-align:top;">:</td><td><div>session_id_welcome=127.0.0.1-19c9e980-6de2-4750-8644-a788d0407992; session_id_arduino=127.0.0.1-19f47e0f-a189-46ed-9e7f-171ac7d1aed5; session_id_admin=127.0.0.1-3d149fca-5e9c-4edd-bd65-01f960571399</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_HOST</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1:4430</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_REFERER</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:4430/Arduino/dispositivo/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_UPGRADE_INSECURE_REQUESTS</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_USER_AGENT</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_INFO</td><td style="vertical-align:top;">:</td><td><div>/Arduino/dispositivo/adicionar</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">QUERY_STRING</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_ADDR</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_PORT</td><td style="vertical-align:top;">:</td><td><div>51120</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_METHOD</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_NAME</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_NAME</td><td style="vertical-align:top;">:</td><td><div>marcos-ads-PC</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PORT</td><td style="vertical-align:top;">:</td><td><div>4430</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PROTOCOL</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SOFTWARE</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;C:\\\\Python27\\\\web2py\\\\applications\\\\Arduino\\\\&#x27;, &#x27;C:\\\\Python27\\\\web2py\\\\applications\\\\admin\\\\&#x27;, &#x27;C:\\\\Python27\\\\web2py\\\\applications\\\\welcome\\\\&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>C:\\Python27\\web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_options</td><td style="vertical-align:top;">:</td><td><div>&lt;Values at 0x3dd8e40: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;127.0.0.1&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;with_scheduler&#x27;: False, &#x27;ips&#x27;: [], &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;scheduler_groups&#x27;: None, &#x27;port&#x27;: 4430, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;marcos-ads-PC&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;print_errors&#x27;: False, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;C:\\\\Python27\\\\web2py&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;profiler_dir&#x27;: None, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: None, &#x27;interfaces&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;&#x27;, &#x27;gae&#x27;: None, &#x27;password&#x27;: &#x27;1234&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>C:\\Python27\\web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_encoding</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate, sdch</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_language</td><td style="vertical-align:top;">:</td><td><div>pt-BR,pt;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cache_control</td><td style="vertical-align:top;">:</td><td><div>max-age=0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_connection</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cookie</td><td style="vertical-align:top;">:</td><td><div>session_id_welcome=127.0.0.1-19c9e980-6de2-4750-8644-a788d0407992; session_id_arduino=127.0.0.1-19f47e0f-a189-46ed-9e7f-171ac7d1aed5; session_id_admin=127.0.0.1-3d149fca-5e9c-4edd-bd65-01f960571399</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_host</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1:4430</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_referer</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:4430/Arduino/dispositivo/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_upgrade_insecure_requests</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_user_agent</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>fe80::bc01:2e34:530e:2ab2%14</div></td></tr><tr><td><div>192.168.25.149</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>marcos-ads-PC.home</div></td></tr><tr><td><div>127.0.0.1</div></td></tr><tr><td><div>marcos-ads-PC</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_info</td><td style="vertical-align:top;">:</td><td><div>/Arduino/dispositivo/adicionar</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">query_string</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_addr</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_port</td><td style="vertical-align:top;">:</td><td><div>51120</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_method</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_uri</td><td style="vertical-align:top;">:</td><td><div>/Arduino/dispositivo/adicionar</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_name</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_name</td><td style="vertical-align:top;">:</td><td><div>marcos-ads-PC</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_port</td><td style="vertical-align:top;">:</td><td><div>4430</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_protocol</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_software</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_path</td><td style="vertical-align:top;">:</td><td><div>C:\\Python27\\web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.13.4-stable+timestamp.2016.02.10.15.41.11</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x0285D0D0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x03D8FF80&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x07AD59B0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x0285D0D0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x03D8FF80&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x07AD59B0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">folder</td><td style="vertical-align:top;">:</td><td><div>C:\\Python27\\web2py\\applications\\Arduino\\</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">function</td><td style="vertical-align:top;">:</td><td><div>adicionar</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">global_settings</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;C:\\\\Python27\\\\web2py\\\\applications\\\\Arduino\\\\&#x27;, &#x27;C:\\\\Python27\\\\web2py\\\\applications\\\\admin\\\\&#x27;, &#x27;C:\\\\Python27\\\\web2py\\\\applications\\\\welcome\\\\&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>C:\\Python27\\web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_options</td><td style="vertical-align:top;">:</td><td><div>&lt;Values at 0x3dd8e40: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;127.0.0.1&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;with_scheduler&#x27;: False, &#x27;ips&#x27;: [], &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;scheduler_groups&#x27;: None, &#x27;port&#x27;: 4430, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;marcos-ads-PC&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;print_errors&#x27;: False, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;C:\\\\Python27\\\\web2py&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;profiler_dir&#x27;: None, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: None, &#x27;interfaces&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;&#x27;, &#x27;gae&#x27;: None, &#x27;password&#x27;: &#x27;1234&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>C:\\Python27\\web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>fe80::bc01:2e34:530e:2ab2%14</div></td></tr><tr><td><div>192.168.25.149</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>marcos-ads-PC.home</div></td></tr><tr><td><div>127.0.0.1</div></td></tr><tr><td><div>marcos-ads-PC</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.13.4-stable+timestamp.2016.02.10.15.41.11</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_https</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_local</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_restful</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_scheduler</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_shell</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">now</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 3, 2, 22, 38, 36, 202000)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_args</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_extension</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">url</td><td style="vertical-align:top;">:</td><td><div>/Arduino/dispositivo/adicionar</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">utcnow</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 3, 3, 1, 38, 36, 202000)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi</td><td style="vertical-align:top;">:</td><td><div>&lt;gluon.main.LazyWSGI object at 0x07B0E8F0&gt;</div></td></tr></table></div>'
+tRp62
+sS'frames'
+p63
+(lp64
+(dp65
+S'file'
+p66
+S'C:\\Python27\\web2py\\gluon\\restricted.py'
+p67
+sS'dump'
+p68
+(dp69
+S'environment'
+p70
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, ...}"
+p71
+sS'ccode'
+p72
+S'<code object <module> at 07BABD58, file "C:\\Pyth...eb2py\\applications\\Arduino\\models\\db.py", line 3>'
+p73
+ssS'lnum'
+p74
+I227
+sS'lines'
+p75
+(dp76
+I224
+S'            ccode = code'
+p77
+sI225
+S'        else:'
+p78
+sI226
+S'            ccode = compile2(code, layer)'
+p79
+sI227
+S'        exec ccode in environment'
+p80
+sI228
+S'    except HTTP:'
+p81
+sI229
+S'        raise'
+p82
+sI230
+S'    except RestrictedError:'
+p83
+sI231
+S'        # do not encapsulate (obfuscate) the original RestrictedError'
+p84
+sI222
+S'    try:'
+p85
+sI223
+S'        if isinstance(code, types.CodeType):'
+p86
+ssS'call'
+p87
+S"(code='# -*- coding: utf-8 -*-\\n\\nimport serial\\n\\nSERIAIS ...pbits=Serial.stopbits,\\n\\t\\tparity=Serial.parity\\n\\t)\\n', environment={'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, ...}, layer=r'C:\\Python27\\web2py\\applications\\Arduino\\models\\db.py')"
+p88
+sS'func'
+p89
+S'restricted'
+p90
+sa(dp91
+g66
+S'C:\\Python27\\web2py\\applications\\Arduino\\models\\db.py'
+p92
+sg68
+(dp93
+S'auth.signature'
+p94
+S'<Table auth_signature (id,is_active,created_on,created_by,modified_on,modified_by)>'
+p95
+sS'auth'
+p96
+S'<gluon.tools.Auth object>'
+p97
+ssg74
+I64
+sg75
+(dp98
+I64
+S'\t\tauth.signature'
+p99
+sI65
+S'\t)'
+p100
+sI66
+S'Embarcado.is_active.readable = False'
+p101
+sI67
+S'Embarcado.is_active.writable = False'
+p102
+sI68
+S'Embarcado.id_serial.requires = IS_IN_DB(db, Serial.id, Serial._format)'
+p103
+sI59
+S'\t\tField("id_icon",Icons , label="Icons", requires=IS_NOT_EMPTY(), notnull=True),'
+p104
+sI60
+S'\t\tField("nome", "string", length=80, label="Nome", comment=None),'
+p105
+sI61
+S'\t\tField("descricao", "string", length=80, label="Descri\xc3\xa7\xc3\xa3o", comment=None),'
+p106
+sI62
+S'\t\tField("codigo_arduino", "integer", length=11, label="Arduino Cod.", comment=None),'
+p107
+sI63
+S'\t\tField("status", "boolean", label="Status", comment=None),'
+p108
+ssg87
+S'()'
+p109
+sg89
+S'<module>'
+p110
+sa(dp111
+g66
+S'C:\\Python27\\web2py\\gluon\\packages\\dal\\pydal\\base.py'
+p112
+sg68
+(dp113
+S'fields'
+p114
+S'(<pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <Table auth_signature (id,is_active,created_on,created_by,modified_on,modified_by)>)'
+p115
+sS'self'
+p116
+S'<DAL uri="sqlite://storage.sqlite">'
+p117
+sS'args'
+p118
+g21
+sS'tablename'
+p119
+S"'embarcado'"
+p120
+sS'table'
+p121
+S'undefined'
+p122
+sS'self.lazy_define_table'
+p123
+S'<bound method DAL.lazy_define_table of <DAL uri="sqlite://storage.sqlite">>'
+p124
+ssg74
+I834
+sg75
+(dp125
+I832
+S'            table = None'
+p126
+sI833
+S'        else:'
+p127
+sI834
+S'            table = self.lazy_define_table(tablename,*fields,**args)'
+p128
+sI835
+S'        if not tablename in self.tables:'
+p129
+sI836
+S'            self.tables.append(tablename)'
+p130
+sI837
+S'        return table'
+p131
+sI838
+S''
+sI829
+S'                    % (tablename,invalid_args))'
+p132
+sI830
+S'        if self._lazy_tables and tablename not in self._LAZY_TABLES:'
+p133
+sI831
+S'            self._LAZY_TABLES[tablename] = (tablename,fields,args)'
+p134
+ssg87
+S'(self=<DAL uri="sqlite://storage.sqlite">, tablename=\'embarcado\', *fields=(<pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <Table auth_signature (id,is_active,created_on,created_by,modified_on,modified_by)>), **args={})'
+p135
+sg89
+S'define_table'
+p136
+sa(dp137
+g66
+S'C:\\Python27\\web2py\\gluon\\packages\\dal\\pydal\\base.py'
+p138
+sg68
+(dp139
+S'polymodel'
+p140
+S'None'
+p141
+ssg74
+I873
+sg75
+(dp142
+I868
+S'            try:'
+p143
+sI869
+S'                GLOBAL_LOCKER.acquire()'
+p144
+sI870
+S'                self._lastsql = self._adapter.create_table('
+p145
+sI871
+S'                    table,migrate=migrate,'
+p146
+sI872
+S'                    fake_migrate=fake_migrate,'
+p147
+sI873
+S'                    polymodel=polymodel)'
+p148
+sI874
+S'            finally:'
+p149
+sI875
+S'                GLOBAL_LOCKER.release()'
+p150
+sI876
+S'        else:'
+p151
+sI877
+S'            table._dbt = None'
+p152
+ssg87
+S'(self=<DAL uri="sqlite://storage.sqlite">, tablename=\'embarcado\', *fields=(<pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <pydal.objects.Field object>, <Table auth_signature (id,is_active,created_on,created_by,modified_on,modified_by)>), **args={})'
+p153
+sg89
+S'lazy_define_table'
+p154
+sa(dp155
+g66
+S'C:\\Python27\\web2py\\gluon\\packages\\dal\\pydal\\adapters\\base.py'
+p156
+sg68
+(dp157
+S'query'
+p158
+S"'CREATE TABLE embarcado(\\n    id INTEGER PRIMARY K... REFERENCES auth_user (id) ON DELETE CASCADE  \\n);'"
+p159
+sS'self'
+p160
+S'<pydal.adapters.sqlite.SQLiteAdapter object>'
+p161
+sS'table'
+p162
+S'<Table embarcado (id,id_serial,id_grupo,id_icon,...e,created_on,created_by,modified_on,modified_by)>'
+p163
+sS'self.create_sequence_and_triggers'
+p164
+S'<bound method SQLiteAdapter.create_sequence_and_... of <pydal.adapters.sqlite.SQLiteAdapter object>>'
+p165
+ssg74
+I482
+sg75
+(dp166
+I480
+S'                            query), table)'
+p167
+sI481
+S'            if not fake_migrate:'
+p168
+sI482
+S'                self.create_sequence_and_triggers(query, table)'
+p169
+sI483
+S'                db.commit()'
+p170
+sI484
+S'                # Postgres geom fields are added now,'
+p171
+sI485
+S'                # after the table has been created'
+p172
+sI486
+S'                for query in postcreation_fields:'
+p173
+sI477
+S'            if table._dbt:'
+p174
+sI478
+S"                self.log('timestamp: %s\\n%s\\n'"
+p175
+sI479
+S'                         % (datetime.datetime.today().isoformat(),'
+p176
+ssg87
+S'(self=<pydal.adapters.sqlite.SQLiteAdapter object>, table=<Table embarcado (id,id_serial,id_grupo,id_icon,...e,created_on,created_by,modified_on,modified_by)>, migrate=True, fake_migrate=False, polymodel=None)'
+p177
+sg89
+S'create_table'
+p178
+sa(dp179
+g66
+S'C:\\Python27\\web2py\\gluon\\packages\\dal\\pydal\\adapters\\base.py'
+p180
+sg68
+(dp181
+S'query'
+p182
+S"'CREATE TABLE embarcado(\\n    id INTEGER PRIMARY K... REFERENCES auth_user (id) ON DELETE CASCADE  \\n);'"
+p183
+sS'self'
+p184
+S'<pydal.adapters.sqlite.SQLiteAdapter object>'
+p185
+sS'self.execute'
+p186
+S'<bound method SQLiteAdapter.execute of <pydal.adapters.sqlite.SQLiteAdapter object>>'
+p187
+ssg74
+I1366
+sg75
+(dp188
+I1361
+S''
+sI1362
+S'    def constraint_name(self, table, fieldname):'
+p189
+sI1363
+S"        return '%s_%s__constraint' % (table,fieldname)"
+p190
+sI1364
+S''
+sI1365
+S'    def create_sequence_and_triggers(self, query, table, **args):'
+p191
+sI1366
+S'        self.execute(query)'
+p192
+sI1367
+S''
+sI1368
+S''
+sI1369
+S'    def log_execute(self, *a, **b):'
+p193
+sI1370
+S'        if not self.connection: raise ValueError(a[0])'
+p194
+ssg87
+S"(self=<pydal.adapters.sqlite.SQLiteAdapter object>, query='CREATE TABLE embarcado(\\n    id INTEGER PRIMARY K... REFERENCES auth_user (id) ON DELETE CASCADE  \\n);', table=<Table embarcado (id,id_serial,id_grupo,id_icon,...e,created_on,created_by,modified_on,modified_by)>, **args={})"
+p195
+sg89
+S'create_sequence_and_triggers'
+p196
+sa(dp197
+g66
+S'C:\\Python27\\web2py\\gluon\\packages\\dal\\pydal\\adapters\\base.py'
+p198
+sg68
+(dp199
+S'a'
+S"('CREATE TABLE embarcado(\\n    id INTEGER PRIMARY K... REFERENCES auth_user (id) ON DELETE CASCADE  \\n);',)"
+p200
+sS'self'
+p201
+S'<pydal.adapters.sqlite.SQLiteAdapter object>'
+p202
+sS'b'
+g21
+sS'self.log_execute'
+p203
+S'<bound method SQLiteAdapter.log_execute of <pydal.adapters.sqlite.SQLiteAdapter object>>'
+p204
+ssg74
+I1385
+sg75
+(dp205
+I1380
+S'        self.db._timings.append((command,time.time()-t0))'
+p206
+sI1381
+S'        del self.db._timings[:-TIMINGSSIZE]'
+p207
+sI1382
+S'        return ret'
+p208
+sI1383
+S''
+sI1384
+S'    def execute(self, *a, **b):'
+p209
+sI1385
+S'        return self.log_execute(*a, **b)'
+p210
+sI1386
+S''
+sI1387
+S'    def execute_test_query(self):'
+p211
+sI1388
+S'        return self.execute(self.test_query)'
+p212
+sI1389
+S''
+ssg87
+S"(self=<pydal.adapters.sqlite.SQLiteAdapter object>, *a=('CREATE TABLE embarcado(\\n    id INTEGER PRIMARY K... REFERENCES auth_user (id) ON DELETE CASCADE  \\n);',), **b={})"
+p213
+sg89
+S'execute'
+p214
+sa(dp215
+g66
+S'C:\\Python27\\web2py\\gluon\\packages\\dal\\pydal\\adapters\\base.py'
+p216
+sg68
+(dp217
+S'a'
+S"('CREATE TABLE embarcado(\\n    id INTEGER PRIMARY K... REFERENCES auth_user (id) ON DELETE CASCADE  \\n);',)"
+p218
+sS'b'
+g21
+sS'self'
+p219
+S'<pydal.adapters.sqlite.SQLiteAdapter object>'
+p220
+sS'ret'
+p221
+g122
+sS'command'
+p222
+S"'CREATE TABLE embarcado(\\n    id INTEGER PRIMARY K... REFERENCES auth_user (id) ON DELETE CASCADE  \\n);'"
+p223
+sS'self.get_cursor'
+p224
+S'<bound method SQLiteAdapter.get_cursor of <pydal.adapters.sqlite.SQLiteAdapter object>>'
+p225
+sS').execute'
+p226
+g122
+ssg74
+I1379
+sg75
+(dp227
+I1376
+S"            self.db.logger.debug('SQL: %s' % command)"
+p228
+sI1377
+S'        self.db._lastsql = command'
+p229
+sI1378
+S'        t0 = time.time()'
+p230
+sI1379
+S'        ret = self.get_cursor().execute(command, *a[1:], **b)'
+p231
+sI1380
+S'        self.db._timings.append((command,time.time()-t0))'
+p232
+sI1381
+S'        del self.db._timings[:-TIMINGSSIZE]'
+p233
+sI1382
+S'        return ret'
+p234
+sI1383
+S''
+sI1374
+S'            command = self.filter_sql_command(command)'
+p235
+sI1375
+S'        if self.db._debug:'
+p236
+ssg87
+S"(self=<pydal.adapters.sqlite.SQLiteAdapter object>, *a=('CREATE TABLE embarcado(\\n    id INTEGER PRIMARY K... REFERENCES auth_user (id) ON DELETE CASCADE  \\n);',), **b={})"
+p237
+sg89
+S'log_execute'
+p238
+sasS'pyver'
+p239
+S'Python 2.7.11: C:\\Python27\\python.exe (prefix: C:\\Python27)'
+p240
+sS'session'
+p241
+g61
+(S's)\n\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">auth</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">expiration</td><td style="vertical-align:top;">:</td><td><div>2592000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">hmac_key</td><td style="vertical-align:top;">:</td><td><div>9090f8e4-27eb-4319-a8b7-753e1ef19011</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_visit</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 2, 28, 15, 5, 19, 221000)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remember_me</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">email</td><td style="vertical-align:top;">:</td><td><div>mar_ads@live.com</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">first_name</td><td style="vertical-align:top;">:</td><td><div>Marcos</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">id</td><td style="vertical-align:top;">:</td><td><div>1L</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_name</td><td style="vertical-align:top;">:</td><td><div>Oliveira</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_id</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_key</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">reset_password_key</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user_groups</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">1</td><td style="vertical-align:top;">:</td><td><div>user_1</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_orderby</td><td style="vertical-align:top;">:</td><td><div>db.auth_membership.group_id</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_query</td><td style="vertical-align:top;">:</td><td><div>db.auth_membership.id&gt;0</div></td></tr></table></div>'
+tRp242
+sS'etype'
+p243
+S"<class 'sqlite3.OperationalError'>"
+p244
+sS'date'
+p245
+S'Wed Mar 02 22:38:36 2016'
+p246
+sS'response'
+p247
+g61
+(S's\x03\x18\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">body</td><td style="vertical-align:top;">:</td><td><div>&lt;cStringIO.StringO object at 0x07B0E580&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_arduino</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-19f47e0f-a189-46ed-9e7f-171ac7d1aed5<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">delimiters</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">files</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">form_label_separator</td><td style="vertical-align:top;">:</td><td><div>: </div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">formstyle</td><td style="vertical-align:top;">:</td><td><div>table3cols</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generic_patterns</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>*</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">headers</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">X-Powered-By</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">menu</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">meta</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">models_to_run</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^dispositivo/\\w+\\.py$</div></td></tr><tr><td><div>^dispositivo/adicionar/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">postprocessing</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_client</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_compression_level</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_expires</td><td style="vertical-align:top;">:</td><td><div>2592000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_key</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_data_name</td><td style="vertical-align:top;">:</td><td><div>session_data_arduino</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_file</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;C:\\\\Python27\\\\web2py\\\\applications\\\\Arduino\\\\sessions\\\\162\\\\119\\\\127.0.0.1-19f47e0f-a189-46ed-9e7f-171ac7d1aed5&#x27;, mode &#x27;rb+&#x27; at 0x07BB1BD0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_filename</td><td style="vertical-align:top;">:</td><td><div>C:\\Python27\\web2py\\applications\\Arduino\\sessions\\127.0.0.1-19f47e0f-a189-46ed-9e7f-171ac7d1aed5</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_hash</td><td style="vertical-align:top;">:</td><td><div>44a17e6944ecda9414b91bdd86904f89</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-19f47e0f-a189-46ed-9e7f-171ac7d1aed5</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_name</td><td style="vertical-align:top;">:</td><td><div>session_id_arduino</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_locked</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_masterapp</td><td style="vertical-align:top;">:</td><td><div>Arduino</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_new</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_storage_type</td><td style="vertical-align:top;">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">status</td><td style="vertical-align:top;">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">view</td><td style="vertical-align:top;">:</td><td><div>dispositivo/adicionar.html</div></td></tr></table></div>'
+tRp248
+sS'locals'
+p249
+(dp250
+S'a'
+S"('CREATE TABLE embarcado(\\n    id INTEGER PRIMARY K... REFERENCES auth_user (id) ON DELETE CASCADE  \\n);',)"
+p251
+sS'self'
+p252
+S'<pydal.adapters.sqlite.SQLiteAdapter object>'
+p253
+sS'b'
+g21
+sS'command'
+p254
+S"'CREATE TABLE embarcado(\\n    id INTEGER PRIMARY K... REFERENCES auth_user (id) ON DELETE CASCADE  \\n);'"
+p255
+sS't0'
+p256
+S'1456969116.234'
+p257
+sssS'traceback'
+p258
+S'Traceback (most recent call last):\n  File "C:\\Python27\\web2py\\gluon\\restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "C:\\Python27\\web2py\\applications\\Arduino\\models\\db.py", line 64, in <module>\n    auth.signature\n  File "C:\\Python27\\web2py\\gluon\\packages\\dal\\pydal\\base.py", line 834, in define_table\n    table = self.lazy_define_table(tablename,*fields,**args)\n  File "C:\\Python27\\web2py\\gluon\\packages\\dal\\pydal\\base.py", line 873, in lazy_define_table\n    polymodel=polymodel)\n  File "C:\\Python27\\web2py\\gluon\\packages\\dal\\pydal\\adapters\\base.py", line 482, in create_table\n    self.create_sequence_and_triggers(query, table)\n  File "C:\\Python27\\web2py\\gluon\\packages\\dal\\pydal\\adapters\\base.py", line 1366, in create_sequence_and_triggers\n    self.execute(query)\n  File "C:\\Python27\\web2py\\gluon\\packages\\dal\\pydal\\adapters\\base.py", line 1385, in execute\n    return self.log_execute(*a, **b)\n  File "C:\\Python27\\web2py\\gluon\\packages\\dal\\pydal\\adapters\\base.py", line 1379, in log_execute\n    ret = self.get_cursor().execute(command, *a[1:], **b)\nOperationalError: table embarcado already exists\n'
+p259
+s.

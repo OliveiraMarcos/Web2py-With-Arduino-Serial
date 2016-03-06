@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.AttributeError'> 'Table' object has no attribute 'group'"
+p3
+sS'layer'
+p4
+S'C:\\Python27\\web2py\\applications\\Arduino\\controllers/papel.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n\n\n@auth.requires_login()\ndef index():\n\n    list_str = """ \n        <tr class="odd gradeX">\n            <td>%(nome)s</td>\n            <td>%(papel)s</td>\n            <td><a href="%(edt)s" class="btn btn-primary btn-xs fa fa-pencil" >\n\n                </a>\n                <a href="%(delt)s" class="btn btn-primary btn-xs fa fa-trash-o" >\n\n                </a>\n\n            </td>\n\n        </tr>\n    """\n    resp = db().select(\n    \tdb.auth_membership.ALL, db.auth_user.ALL, db.auth_group.ALL,\\\n    \tleft=db.auth_membership.on((db.auth_user.id==db.auth_membership.user_id) & (db.auth_group.id==db.auth_membership.group)))\n    lista = [list_str % dict(nome=linha.user_id,\n                             papel=linha.group_id,\n                             edt=URL(\'papel\', \'editar\', args=linha.id),\n                             delt=URL(\'papel\', \'desativar\'),\n                             )for linha in resp]\n    return dict(lista=lista)\n\n\n@auth.requires_login()\ndef adicionar():\n    form = SQLFORM(db.auth_membership, formstyle=\'divs\')\n    if form.process().accepted:\n        response.flash = \'Sucesso!\'\n        redirect(URL(\'index\'))\n    elif form.errors:\n        response.flash = \'Erros!\'\n    else:\n        response.flash = \'Preencha os dados\'\n    return dict(form=form)\n\n\n@auth.requires_login()\ndef editar():\n    if request.args(0):\n        record = db.auth_membership(request.args(0)) or redirect(URL(\'index\'))\n        form = SQLFORM(db.auth_membership, record, formstyle=\'divs\')\n    if form.process().accepted:\n        redirect(URL(\'index\'))\n        response.flash = \'Sucesso!\'\n    elif form.errors:\n        response.flash = \'Erros!\'\n    else:\n        response.flash = \'Preencha os dados\'\n    response.view = \'papel/adicionar.html\'\n    return dict(form=form)\n\nresponse._vars=response._caller(index)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "C:\\Python27\\web2py\\gluon\\restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "C:\\Python27\\web2py\\applications\\Arduino\\controllers/papel.py", line 61, in <module>\n  File "C:\\Python27\\web2py\\gluon\\globals.py", line 422, in <lambda>\n    self._caller = lambda f: f()\n  File "C:\\Python27\\web2py\\gluon\\tools.py", line 4228, in f\n    return action(*a, **b)\n  File "C:\\Python27\\web2py\\applications\\Arduino\\controllers/papel.py", line 24, in index\n    left=db.auth_membership.on((db.auth_user.id==db.auth_membership.user_id) & (db.auth_group.id==db.auth_membership.group)))\nAttributeError: \'Table\' object has no attribute \'group\'\n'
+p11
+s.
