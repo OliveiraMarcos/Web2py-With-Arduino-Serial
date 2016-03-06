@@ -17,3 +17,7 @@ git clone --recursive https://github.com/web2py/web2py.git
 #### Por meio de um terminal vá ate a pasta script dentro de C:/Python27/
 #### E execute o comando aseguir:
 pip.exe install tornado
+
+## Instalar Aplicação Web
+#### Dentro de web2py/aplications click com o botão direito e escolha
+#### Git bash e no terminal que aparecer cole o comando:
