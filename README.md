@@ -6,10 +6,10 @@ Tutorial de Instalação Windows
 ## Instalar o Git
 #### Baixe o executável no link:
 https://git-scm.com/download/win
-#### Execute o instalador cliclando em next next finish
+#### Execute o instalador clicando em next next finish
 
 ## Instalar Web2py
-#### Depois vá ate a pasta onte voce quer baixa o web2py click com o botão
+#### Depois vá ate a pasta onde você quer baixa o web2py click com o botão
 #### direito e escolha git bash e no terminal que aparecer cole o comando:
 git clone --recursive https://github.com/web2py/web2py.git
 
