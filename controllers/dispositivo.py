@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-@auth.requires_login()
+@auth.requires_membership('ADM')
 def index():
 
     list_str = """ 
@@ -24,17 +24,17 @@ def index():
                              serial=linha.serial.device,
                              status=status_device(linha.embarcado.status),
                              edt=URL('dispositivo', 'editar', args=linha.embarcado.id),
-                             delt=URL('dispositivo', 'desativar'),
+                             delt=URL('dispositivo', 'deletar', args=linha.embarcado.id),
                              )for linha in resp]
     return dict(lista=lista)
 
 
-@auth.requires_login()
+@auth.requires_membership('ADM')
 def adicionar():
     form = SQLFORM(Embarcado, formstyle='divs')
     if form.process().accepted:
         response.flash = 'Sucesso!'
-        redirect(URL('index'))
+        redirect(URL('dispositivo', 'index'))
     elif form.errors:
         response.flash = 'Erros!'
     else:
@@ -42,13 +42,13 @@ def adicionar():
     return dict(form=form)
 
 
-@auth.requires_login()
+@auth.requires_membership('ADM')
 def editar():
     if request.args(0):
         record = Embarcado(request.args(0)) or redirect(URL('index'))
         form = SQLFORM(Embarcado, record, formstyle='divs')
     if form.process().accepted:
-        redirect(URL('index'))
+        redirect(URL('dispositivo', 'index'))
         response.flash = 'Sucesso!'
     elif form.errors:
         response.flash = 'Erros!'
@@ -56,3 +56,15 @@ def editar():
         response.flash = 'Preencha os dados'
     response.view = 'dispositivo/adicionar.html'
     return dict(form=form)
+
+@auth.requires_membership('ADM')
+def deletar():
+    try:
+        if db(Embarcado.id == request.args(0)).delete():
+            redirect(URL('dispositivo', 'index'))
+            response.flash = T('Registro Excluido com sucesso!')
+        else:
+            response.flash = T('Erro!')
+    except Exception, e:
+        response.flash = e
+        pass

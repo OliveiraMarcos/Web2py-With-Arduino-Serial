@@ -1,0 +1,68 @@
+{{extend 'layout.html'}}
+<!-- USER PROFILE BLOCK -->
+<div class="row">
+    <div class="col-md-4 col-md-offset-4" id="msg">
+        
+    </div>
+</div>
+<div class="col-md-3">
+
+    <!-- LOCAL TIME BLOCK -->
+    <div class="half-unit">
+        <dtitle>Hora Local</dtitle>
+        <hr>
+        <div class="clockcenter">
+            <digiclock>12:45:25</digiclock>
+        </div>
+    </div>
+    
+</div>
+{{for item in lista:}}
+    {{=XML(item)}}
+{{pass}}
+
+<script>
+    $('.lamp-unit').click(
+        function(){
+            OnOff_get($(this).attr('id'));
+            
+            
+        }
+    );
+
+    var alert  = "<div class=\"alert alert-warning alert-dismissible\" role=\"alert\">";
+        alert += "   <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">";
+        alert += "        <span aria-hidden=\"true\">&times;</span>";
+        alert += "    </button>";
+        alert += "    %s ";
+        alert += "</div>";
+
+    function on_off(idName, act){
+        var obj = document.getElementById(idName);
+        obj.className = obj.className.replace(/\blamp-ligado\b/,'');
+        if(act==1){
+            obj.className += 'lamp-ligado';
+            obj.getElementsByClassName('h3')[0].innerHTML = 'Ligado <i class="fa fa-toggle-on"></i>';
+        }else if(act==0){
+            obj.getElementsByClassName('h3')[0].innerHTML = 'Desligado <i class="fa fa-toggle-off"></i>';
+        }
+    }
+
+
+
+    function OnOff_get(val){
+        var msg = $('#msg');
+        $.get( "{{=URL('devices')}}", { value: val, tokken:'{{=tokken}}' } )
+        .   done(function( data ) {
+            if(!/^[0-1]/.test(data)){
+                msg.html(alert.replace('%s', data));
+            }
+        });
+    }
+    var data;
+    web2py_websocket('ws://192.168.25.149:8888/realtime/mysection', function(e){
+        setTimeout(e.data,0);
+    });
+
+    
+</script>

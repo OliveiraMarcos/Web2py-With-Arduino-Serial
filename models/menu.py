@@ -32,6 +32,22 @@ DEVELOPMENT_MENU = True
 ## provide shortcuts for development. remove in production
 #########################################################################
 
+
+def LIS(idx):
+  if not auth.has_membership(role = 'ADM'):
+    idx = 0
+  if idx == 1:
+    return [LI(A(I( _class="fa fa-key"), T(' Papel'), _href=URL('papel','index'))),
+            LI( _role="separator", _class="divider"),
+            LI(A(I( _class="fa fa-building"), T(' Dispositivo'), _href=URL('dispositivo','index'))),
+            LI(A(I( _class="fa fa-sitemap"), T(' Grupos'), _href=URL('grupo','index'))),
+            LI(A(I( _class="fa fa-info"), T(' Incons'), _href=URL('icons','index')))]
+  elif idx == 2:
+    return [LI(A(I( _class="fa fa-cogs"), T(' Configurações'), _href=URL('serial','index')))]
+  else:
+    return []
+
+
 def _():
     # shortcuts
     app = request.application
@@ -43,19 +59,16 @@ def _():
                           A(I( _class='fa fa-database'), T(' Cadastro'), SPAN( _class='caret'), data={'toggle':'dropdown'}, aria={'haspopup':'true','expanded':'false'}, _class='dropdown-toggle', _role='button'),
                           UL( 
                             LI(A(I( _class="fa fa-users"), T(' Usuario'),  _href=URL('usuario','index'))),
-                            LI(A(I( _class="fa fa-key"), T(' Papel'), _href=URL('papel','index'))),
-                            LI( _role="separator", _class="divider"),
-                            LI(A(I( _class="fa fa-building"), T(' Dispositivo'), _href=URL('dispositivo','index'))),
-                            LI(A(I( _class="fa fa-sitemap"), T(' Grupos'), _href=URL('grupo','index'))),
-                            LI(A(I( _class="fa fa-info"), T(' Incons'), _href=URL('icons','index'))),
+                            LIS(1),
                             _class="dropdown-menu"
                           ),
                           _class='dropdown'
                       ),
-                      LI(A(I( _class="fa fa-cogs"), T(' Configurações'), _href=URL('serial','index'))),
-                      LI(A(I( _class="fa fa-power-off"), T(' Sair'), _href="#")),
+                      LIS(2),
+                      LI(A(I( _class="fa fa-power-off"), T(' Sair'), _href=URL('default', 'user', args='logout'))),
                       _class='nav navbar-nav'
                     )
 if DEVELOPMENT_MENU: _()
 
 if "auth" in locals(): auth.wikimenu()
+

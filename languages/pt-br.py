@@ -113,6 +113,7 @@
 'Live Chat': 'Chat ao vivo',
 'Log In': 'Log In',
 'Logged in': 'Logged in',
+'Logged out': 'Logged out',
 'login': 'Entrar',
 'Login': 'Autentique-se',
 'logout': 'Sair',

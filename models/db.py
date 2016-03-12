@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from time import gmtime, strftime
+import md5
 import time
 import serial
 
@@ -92,18 +94,25 @@ def status_device(st):
 
 def device_send(row, msg):
 	try:
-		conn_serial = serial.Serial(
-			row.device,
-			int(row.baud_rate),
-			timeout=int(row.timeout),
-			bytesize=int(row.bytesize),
-			stopbits=int(row.stopbits),
-			parity=row.parity
-		)
+		ret = ''
+		conn_serial = serial.Serial(row.device,\
+			int(row.baud_rate),\
+			timeout=int(row.timeout),\
+			bytesize=int(row.bytesize),\
+			stopbits=int(row.stopbits),\
+			parity=row.parity)
+		# while ret == '':
 		conn_serial.write(msg)
-		retorno = conn_serial.readline().rstrip()
-		return retorno
+		ret = conn_serial.readline().rstrip()
+		return ret
 
 	finally:
 		conn_serial.close()
-		pass
+		# pass
+
+def get_tokken():
+	clock = strftime("%a, %d %b %Y %H", gmtime())
+	hsh = md5.new(clock+'m4rc05@0l1v31r4')
+	return hsh.hexdigest()
+
+

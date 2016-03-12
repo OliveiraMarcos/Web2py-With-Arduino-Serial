@@ -1,5 +1,10 @@
 {{extend 'layout.html'}}
 <!-- USER PROFILE BLOCK -->
+<div class="row">
+    <div class="col-md-4 col-md-offset-4" id="msg">
+        
+    </div>
+</div>
 <div class="col-md-3">
 
     <!-- LOCAL TIME BLOCK -->
@@ -15,41 +20,8 @@
 {{for item in lista:}}
     {{=XML(item)}}
 {{pass}}
-
 <script>
-    $('.lamp-unit').click(
-        function(){
-            OnOff_get($(this).attr('id'));
-            
-            
-        }
-    );
-
-    function exec_(str){
-        var obj = $(str);
-        on_off(obj);
-    }
-
-    function on_off(obj){
-        $(obj).toggleClass('lamp-ligado');
-        var innerHTML = $(obj).html();
-        if($(obj).find('.h3').html() =='Ligado <i class="fa fa-toggle-on"></i>'){
-            $(obj).find('.h3').html('Desligado <i class="fa fa-toggle-off"></i>');
-        }else{
-            $(obj).find('.h3').html('Ligado <i class="fa fa-toggle-on"></i>');
-        }
-    }
-
-    function OnOff_get(val){
-        $.get( "{{=URL('devices')}}", { value: val } )
-        .   done(function( data ) {
-            return data;
-        });
-    }
-    var data;
-    web2py_websocket('ws://blossonville2.ddns.net:8888/realtime/mygroup', function(e){
-        exec_(e.data);
+    web2py_websocket('ws://192.168.25.149:8888/realtime/mygroup', function(e){
+        setTimeout(e.data,200);
     });
-
-    
 </script>
